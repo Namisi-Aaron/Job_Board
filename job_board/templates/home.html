@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+    {% block content %}
+        {% for advert in adverts %}
+        <article>
+            <h1>{{ advert.vacancy }}({{ advert.number_of_vacancies }}) - {{ advert.recruiter }}</h1>
+            <small>{{ advert.location }} {{ advert.job_type }}</small>
+            <small>{{ advert.date_posted }}</small>
+            <h2>Job Description</h2>
+            <p>{{ advert.description }}</p>
+            <h2>Key Resposibilities</h2>
+            <p>{{ advert.key_responsibilities }}</p>
+            <h2>Minimum Qualifications and Requirements</h2>
+            <p>{{ advert.minimum_qualifications_and_requirements }}</p>
+            <h3>Deadline</h3>
+            <p>{{ advert.deadline }}</p>
+        </article>
+        {% endfor %}
+    {% endblock %}
