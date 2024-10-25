@@ -13,7 +13,6 @@ class User(db.Model):
     role = db.relationship('Role', backref='user_role', lazy=True)
     organisation = db.Column(db.String(60), nullable=True, unique=False)
 
-
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"
     
@@ -51,8 +50,8 @@ class Advert(db.Model):
     job_type = db.Column(db.String(10), nullable=False)
     town = db.Column(db.String(40), nullable=True)
     country = db.Column(db.String(40), nullable=False)
-    category_id = db.Column(db.Integer, nullable=False)
-    category = db.relationship('JobCategory', backref='job_category', lazy=True)
+    category_id = db.Column(db.Integer, db.ForeignKey('job_categories.id'), nullable=False)
+    category = db.relationship('JobCategory', back_populates='adverts', primaryjoin="Advert.category_id == JobCategory.id", lazy=True)
     deadline = db.Column(db.DateTime, nullable=False)
     posted_dt = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
 
@@ -63,7 +62,8 @@ class JobCategory(db.Model):
     __tablename__ = 'job_categories'
 
     id = db.Column(db.Integer, primary_key=True)
-    category_name = db.Column(db.String(40), nullable=False)
+    category_name = db.Column(db.String(20), nullable=False)
+    adverts = db.relationship('Advert', back_populates="category")
 
     def __repr__(self):
         return f"JobCategory('{self.id}' - '{self.category_name}')"

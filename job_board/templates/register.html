@@ -32,6 +32,32 @@
                             {% endif %}
                     </div>
                     <div class="form-group">
+                        {{ form.organisation.label(class="form-control-label") }}
+                        {% if form.organisation.errors %}
+                                {{ form.organisation(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.organisation.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.organisation(class="form-control form-control-lg") }}                                
+                            {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.role_id.label(class="form-control-label") }}
+                        {% if form.role_id.errors %}
+                                {{ form.role_id(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.role_id.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.role_id(class="form-control form-control-lg") }}                                
+                            {% endif %}
+                    </div>
+                    <div class="form-group">
                         {{ form.password.label(class="form-control-label") }}
                         {% if form.password.errors %}
                                 {{ form.password(class="form-control form-control-lg is-invalid") }}

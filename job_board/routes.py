@@ -1,7 +1,7 @@
-from flask import render_template, url_for, flash, redirect, flash
-from job_board import app
+from flask import render_template, url_for, flash, redirect
+from job_board import app, db, bcrypt
 from job_board.forms import RegistrationForm, LoginForm
-# from job_board.models import User
+from job_board.models import User, Role, Application, Advert, JobCategory
 
 adverts = [
     {
@@ -45,8 +45,12 @@ def about():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user = User(username=form.username.data, email=form.email.data, password=hashed_password, organisation=form.organisation.data, role_id=form.role_id.data)
+        db.session.add(user)
+        db.session.commit()
         flash(f'Account created for {form.username.data}!', 'success')
-        return redirect(url_for('home'))
+        return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
 @app.route("/login", methods=['POST', 'GET'])
